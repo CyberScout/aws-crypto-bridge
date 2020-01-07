@@ -23,7 +23,7 @@ strings or raw byte arrays (the 2 types the ESDK encrypts to/decrypts from).
 :question: How dow we manage the acquisition/management of the underlying
 encryption subsystem?
 
-### Java EE 5+
+### Java EE 6+
 
 CDI & JNDI for managing the subsystem.
 
@@ -37,7 +37,7 @@ Starter, with type-safe properties and auto-configuration
 
 ## Hibernate
 
-TypeConverters
+UserTypes
 
 :question: Which version(s) of Hibernate?
 
