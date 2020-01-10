@@ -7,7 +7,6 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.fail;
 
 
 public class CryptoRegistryTest {
@@ -16,7 +15,7 @@ public class CryptoRegistryTest {
 
 
     @Test
-    public void checkTypeSafety() {
+    public void checkRegisterAndLookup() {
 
         StringCrypto stringCrypto = proxy(StringCrypto.class);
         ByteCrypto byteCrypto = proxy(ByteCrypto.class);
@@ -28,19 +27,34 @@ public class CryptoRegistryTest {
         assertSame(stringCrypto, strings);
         ByteCrypto bytes = registry.lookup("bytes", ByteCrypto.class);
         assertSame(byteCrypto, bytes);
+    }
 
-        try {
-            bytes = registry.lookup("strings", ByteCrypto.class);
-            fail();
-        }
-        catch (CryptoBridgeConfigException expected) {
-        }
-        try {
-            CryptoOperations<String> res = registry.lookup("bytes", StringCrypto.class);
-            fail();
-        }
-        catch (CryptoBridgeConfigException expected) {
-        }
+
+    @Test(expected = CryptoBridgeConfigException.class)
+    public void checkLookupThrowsExceptionForWrongType() {
+
+        StringCrypto stringCrypto = proxy(StringCrypto.class);
+        registry.register("test", stringCrypto);
+        registry.lookup("name", ByteCrypto.class);
+    }
+
+
+    @Test(expected = CryptoBridgeConfigException.class)
+    public void checkLookupThrowsExceptionForWrongName() {
+
+        ByteCrypto byteCrypto = proxy(ByteCrypto.class);
+        registry.register("test", byteCrypto);
+        registry.lookup("xyz", ByteCrypto.class);
+    }
+
+
+    @Test
+    public void checkRegisterAndLookupDefault() {
+
+        ByteCrypto byteCrypto = proxy(ByteCrypto.class);
+        registry.registerDefault(byteCrypto);
+        ByteCrypto found = registry.lookupDefault(ByteCrypto.class);
+        assertSame(byteCrypto, found);
     }
 
 
