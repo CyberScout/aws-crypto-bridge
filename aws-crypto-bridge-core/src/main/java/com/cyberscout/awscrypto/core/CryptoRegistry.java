@@ -9,8 +9,7 @@ public class CryptoRegistry {
 
     private static CryptoRegistry INSTANCE = new CryptoRegistry();
 
-    private Map<String, Encryptor> encryptors = new ConcurrentHashMap<>();
-    private Map<String, Decryptor> decryptors = new ConcurrentHashMap<>();
+    private Map<String, CryptoOperations<?>> registry = new ConcurrentHashMap<>();
 
 
     private CryptoRegistry() {
@@ -24,32 +23,25 @@ public class CryptoRegistry {
     }
 
 
-    public void registerEncryptor(String name, Encryptor encryptor) {
+    public void register(String name, CryptoOperations<?> ops) {
 
-        this.encryptors.put(name, encryptor);
+        this.registry.put(name, ops);
     }
 
 
-    public void registerDecryptor(String name, Decryptor decryptor) {
+    public <T extends CryptoOperations<?>> T lookup(String name, Class<T> type) {
 
-        this.decryptors.put(name, decryptor);
-    }
-
-
-    public Encryptor lookupEncryptor(String name) {
-
-        if (!this.encryptors.containsKey(name)) {
-            throw new CryptoBridgeConfigException(String.format("No registered encrypter named '%s'", name));
+        if (!this.registry.containsKey(name)) {
+            throw new CryptoBridgeConfigException(String.format("No registered crypto operations named '%s'", name));
         }
-        return this.encryptors.get(name);
-    }
-
-
-    public Decryptor lookupDecryptor(String name) {
-
-        if (!this.decryptors.containsKey(name)) {
-            throw new CryptoBridgeConfigException(String.format("No registered decrypter named '%s'", name));
+        CryptoOperations<?> ops = this.registry.get(name);
+        try {
+            return type.cast(ops);
         }
-        return this.decryptors.get(name);
+        catch (ClassCastException e) {
+            throw new CryptoBridgeConfigException(String.format("Crypto operations '%s' is not of type %s",
+                                                                name,
+                                                                type));
+        }
     }
 }
