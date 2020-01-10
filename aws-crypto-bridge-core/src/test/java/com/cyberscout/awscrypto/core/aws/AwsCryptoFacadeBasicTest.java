@@ -66,4 +66,14 @@ public class AwsCryptoFacadeBasicTest {
         decryptedContext.put("AWS Stuff", "Some value set by AWS ESDK");
         facade.validateContext(decryptedContext);
     }
+
+    @Test
+    public void checkValidateEmptyContext() {
+
+        Map<String, String> context = new HashMap<>();
+        AwsCryptoFacade<MockMasterKey> facade = new AwsCryptoFacade<>(mockDelegate, new MockMasterKey(), context);
+        Map<String, String> decryptedContext = new HashMap<>();
+        decryptedContext.put("AWS Stuff", "Some value set by AWS ESDK");
+        facade.validateContext(decryptedContext);
+    }
 }
