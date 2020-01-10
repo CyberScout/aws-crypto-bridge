@@ -9,12 +9,9 @@ import com.amazonaws.encryptionsdk.CryptoResult;
 import com.amazonaws.encryptionsdk.MasterKey;
 import com.amazonaws.encryptionsdk.MasterKeyProvider;
 import com.amazonaws.encryptionsdk.exception.BadCiphertextException;
-import lombok.Getter;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -24,16 +21,13 @@ public class AwsCryptoFacade<K extends MasterKey<K>> {
     private final AwsCrypto delegate;
     private final MasterKeyProvider<K> mkp;
     private final Map<String, String> ctx;
-    @Getter
-    private final Charset charset;
 
 
-    AwsCryptoFacade(AwsCrypto delegate, MasterKeyProvider<K> mkp, Map<String, String> ctx, Charset charset) {
+    AwsCryptoFacade(AwsCrypto delegate, MasterKeyProvider<K> mkp, Map<String, String> ctx) {
 
         this.delegate = delegate;
         this.mkp = mkp;
         this.ctx = new ConcurrentHashMap<>(ctx);
-        this.charset = charset;
     }
 
 
@@ -120,11 +114,10 @@ public class AwsCryptoFacade<K extends MasterKey<K>> {
     }
 
 
-    private static class Builder<K extends MasterKey<K>> {
+    static class Builder<K extends MasterKey<K>> {
 
         private final MasterKeyProvider<K> mkp;
         private final Map<String, String> context = new ConcurrentHashMap<>();
-        private Charset charset = StandardCharsets.UTF_8;
 
 
         private Builder(MasterKeyProvider<K> mkp) {
@@ -147,23 +140,9 @@ public class AwsCryptoFacade<K extends MasterKey<K>> {
         }
 
 
-        public Builder<K> withCharset(Charset charset) {
-
-            this.charset = charset;
-            return this;
-        }
-
-
-        public Builder<K> withCharset(String charset) {
-
-            this.charset = Charset.forName(charset);
-            return this;
-        }
-
-
         public AwsCryptoFacade<K> build() {
 
-            return new AwsCryptoFacade<>(new AwsCrypto(), this.mkp, this.context, this.charset);
+            return new AwsCryptoFacade<>(new AwsCrypto(), this.mkp, this.context);
         }
     }
 }
