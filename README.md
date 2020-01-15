@@ -3,6 +3,7 @@
 Defines integration layers and supporting libraries for integrating the AWS
 Encryption SDK into some common Java-based frameworks.
 
+- [ ] Core
 - [ ] JPA
 - [ ] Java EE 5+
 - [ ] Spring
@@ -12,6 +13,12 @@ Encryption SDK into some common Java-based frameworks.
 - [ ] Jasypt
 - [ ] Migration Shim (for decrypting data with a legacy mechanism, but
       re-encrypting with AWS ESDK)
+
+## Core
+
+Defines higher-level interfaces for managing encryption and decryption
+operations, along with wrappers around key AWS ESDK classes to adapt them to
+those interfaces and make them easier to work with.
 
 ## JPA
 

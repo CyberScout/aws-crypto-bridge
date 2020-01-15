@@ -2,7 +2,6 @@ package com.cyberscout.awscrypto.core.aws;
 
 
 import com.amazonaws.encryptionsdk.AwsCrypto;
-import com.amazonaws.encryptionsdk.CryptoAlgorithm;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,7 +42,7 @@ public class AwsCryptoFacadeDelegationTest {
     @Test
     public void checkCreateEncryptingInputStream() {
 
-        this.facade.createEncryptingStream(this.mockInputStream);
+        this.facade.encryptingStream(this.mockInputStream);
         verify(this.mockDelegate).createEncryptingStream(this.masterKey, this.mockInputStream, this.context);
     }
 
@@ -51,7 +50,7 @@ public class AwsCryptoFacadeDelegationTest {
     @Test
     public void checkCreateDecryptingInputStream() {
 
-        this.facade.createDecryptingStream(this.mockInputStream);
+        this.facade.decryptingStream(this.mockInputStream);
         verify(this.mockDelegate).createDecryptingStream(this.masterKey, this.mockInputStream);
     }
 
@@ -59,7 +58,7 @@ public class AwsCryptoFacadeDelegationTest {
     @Test
     public void checkCreateEncryptingOutputStream() {
 
-        this.facade.createEncryptingStream(this.mockOutputStream);
+        this.facade.encryptingStream(this.mockOutputStream);
         verify(this.mockDelegate).createEncryptingStream(this.masterKey, this.mockOutputStream, this.context);
     }
 
@@ -67,7 +66,7 @@ public class AwsCryptoFacadeDelegationTest {
     @Test
     public void checkCreateDecryptingOutputStream() {
 
-        this.facade.createDecryptingStream(this.mockOutputStream);
+        this.facade.decryptingStream(this.mockOutputStream);
         verify(this.mockDelegate).createDecryptingStream(this.masterKey, this.mockOutputStream);
     }
 
@@ -89,25 +88,9 @@ public class AwsCryptoFacadeDelegationTest {
 
 
     @Test
-    public void checkSetEncryptionAlgorithm() {
-
-        this.facade.setEncryptionAlgorithm(CryptoAlgorithm.ALG_AES_256_GCM_IV12_TAG16_HKDF_SHA384_ECDSA_P384);
-        verify(this.mockDelegate).setEncryptionAlgorithm(CryptoAlgorithm.ALG_AES_256_GCM_IV12_TAG16_HKDF_SHA384_ECDSA_P384);
-    }
-
-
-    @Test
     public void checkGetEncryptionFrameSize() {
 
         this.facade.getEncryptionFrameSize();
         verify(this.mockDelegate).getEncryptionFrameSize();
-    }
-
-
-    @Test
-    public void checkSetEncryptionFrameSize() {
-
-        this.facade.setEncryptionFrameSize(42);
-        verify(this.mockDelegate).setEncryptionFrameSize(42);
     }
 }

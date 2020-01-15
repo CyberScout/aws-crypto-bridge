@@ -1,6 +1,7 @@
 package com.cyberscout.awscrypto.core;
 
 
+import com.cyberscout.awscrypto.core.exceptions.CryptoBridgeConfigException;
 import org.junit.Test;
 
 import java.lang.reflect.InvocationHandler;

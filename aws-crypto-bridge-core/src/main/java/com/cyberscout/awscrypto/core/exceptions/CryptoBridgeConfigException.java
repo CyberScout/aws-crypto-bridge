@@ -1,6 +1,9 @@
-package com.cyberscout.awscrypto.core;
+package com.cyberscout.awscrypto.core.exceptions;
 
 
+/**
+ * Exception thrown when the Crypto Bridge is incorrectly configured.
+ */
 public class CryptoBridgeConfigException extends RuntimeException {
 
     public CryptoBridgeConfigException(String message) {

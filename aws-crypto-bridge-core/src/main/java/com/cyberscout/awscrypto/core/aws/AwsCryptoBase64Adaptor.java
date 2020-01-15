@@ -6,14 +6,13 @@ import com.cyberscout.awscrypto.core.Base64StringCrypto;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
-import java.util.Base64;
 import java.util.Objects;
 
 
+/**
+ * Implementation of {@link Base64StringCrypto} that delegates cryptographic operations to an {@link AwsCryptoFacade}.
+ */
 public class AwsCryptoBase64Adaptor implements Base64StringCrypto {
-
-    private static final Base64.Decoder BASE64_DECODER = Base64.getMimeDecoder();
-    private static final Base64.Encoder BASE64_ENCODER = Base64.getMimeEncoder();
 
     private final AwsCryptoFacade<?> crypto;
     private final Charset charset;
@@ -38,7 +37,7 @@ public class AwsCryptoBase64Adaptor implements Base64StringCrypto {
         Objects.requireNonNull(plainVal, "plainVal");
         byte[] plaintext = plainVal.getBytes(this.charset);
         byte[] ciphertext = this.crypto.encryptData(plaintext);
-        return new String(BASE64_ENCODER.encode(ciphertext), this.charset);
+        return BASE64_ENCODER.encodeToString(ciphertext);
     }
 
 

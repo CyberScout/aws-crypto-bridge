@@ -1,15 +1,25 @@
 package com.cyberscout.awscrypto.core;
 
 
+import com.cyberscout.awscrypto.core.exceptions.CryptoBridgeConfigException;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
+ * <p>
  * Singleton class that provides a central, framework-agnostic registry for holding and retrieving
  * {@link CryptoOperations} objects. This registry facilitates creating any necessary cryptographic wrappers during
- * application start-up/bootstrap, and then retrieving them elsewhere. {@link CryptoOperations} objects do not need
- * to be cached here, but all higher-level integrations under the {@code aws-crypto-bridge} umbrella do so.
+ * application start-up/bootstrap, and then retrieving them elsewhere. {@link CryptoOperations} objects do not
+ * <em>need</em> to be cached here, but all higher-level integrations under the {@code aws-crypto-bridge} umbrella do
+ * so.
+ * </p>
+ * <p>
+ * This registry should be generally thread-safe. However, the expected usage pattern is that all modification
+ * operations will take place during a well-defined bootstrap period, before the application is available for use.
+ * Subsequent usages would then be limited to reading from the registry, which will not cause any concurrency issues.
+ * </p>
  */
 public final class CryptoRegistry {
 
@@ -26,7 +36,7 @@ public final class CryptoRegistry {
 
 
     /**
-     * Singleton retrieval method.
+     * Retrieves the singleton.
      *
      * @return The sole {@code CryptoRegistry} instance
      */
