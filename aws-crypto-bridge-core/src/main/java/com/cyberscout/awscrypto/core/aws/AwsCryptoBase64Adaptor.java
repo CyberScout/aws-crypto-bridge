@@ -6,6 +6,7 @@ import com.cyberscout.awscrypto.core.Base64StringCrypto;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 
@@ -13,6 +14,8 @@ import java.util.Objects;
  * Implementation of {@link Base64StringCrypto} that delegates cryptographic operations to an {@link AwsCryptoFacade}.
  */
 public class AwsCryptoBase64Adaptor implements Base64StringCrypto {
+
+    private static final DateTimeFormatter LOCAL_DATE_FORMAT = DateTimeFormatter.BASIC_ISO_DATE;
 
     private final AwsCryptoFacade<?> crypto;
     private final Charset charset;
@@ -54,13 +57,17 @@ public class AwsCryptoBase64Adaptor implements Base64StringCrypto {
     @Override
     public String encryptLocalDate(LocalDate plainVal) {
 
-        return null;
+        Objects.requireNonNull(plainVal, "plainVal");
+        String formatted = plainVal.format(LOCAL_DATE_FORMAT);
+        return this.encryptString(formatted);
     }
 
 
     @Override
     public LocalDate decryptLocalDate(String encryptedVal) {
 
-        return null;
+        Objects.requireNonNull(encryptedVal, "encryptedVal");
+        String decrypted = this.decryptString(encryptedVal);
+        return LocalDate.parse(decrypted, LOCAL_DATE_FORMAT);
     }
 }
