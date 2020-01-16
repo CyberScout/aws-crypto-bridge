@@ -15,9 +15,9 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 
-public class AwsCryptoBase64AdaptorTest {
+public class AwsCryptoByteArrayAdaptorTest {
 
-    private AwsCryptoBase64Adaptor crypto;
+    private AwsCryptoByteArrayAdaptor crypto;
 
 
     @Before
@@ -28,7 +28,7 @@ public class AwsCryptoBase64AdaptorTest {
                 .forMasterKeyProvider(masterKey)
                 .addContext("Purpose", "Test")
                 .build();
-        this.crypto = new AwsCryptoBase64Adaptor(facade);
+        this.crypto = new AwsCryptoByteArrayAdaptor(facade);
     }
 
 
@@ -50,7 +50,7 @@ public class AwsCryptoBase64AdaptorTest {
     public void checkStringEncryption() {
 
         String plaintext = "Awww, yeah!";
-        String encrypted = this.crypto.encryptString(plaintext);
+        byte[] encrypted = this.crypto.encryptString(plaintext);
         assertThat(encrypted, not(equalTo(plaintext)));
         String decrypted = this.crypto.decryptString(encrypted);
         assertThat(decrypted, equalTo(plaintext));
@@ -70,11 +70,12 @@ public class AwsCryptoBase64AdaptorTest {
         this.crypto.decryptLocalDate(null);
     }
 
+
     @Test
     public void checkLocalDateEncryption() {
 
         LocalDate plaintext = LocalDate.of(2020, Month.FEBRUARY, 2);
-        String encrypted = this.crypto.encryptLocalDate(plaintext);
+        byte[] encrypted = this.crypto.encryptLocalDate(plaintext);
         assertThat(encrypted, not(equalTo("2020-02-02")));
         LocalDate decrypted = this.crypto.decryptLocalDate(encrypted);
         assertThat(decrypted, equalTo(plaintext));
