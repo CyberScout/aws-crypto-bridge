@@ -2,6 +2,8 @@ package com.cyberscout.awscrypto.core;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 
 /**
@@ -21,6 +23,44 @@ import java.time.LocalDate;
 // For our immediate purposes, this structure is fine. But if this project grows and needs to support more use cases,
 // then the more generic route would probably be required.
 public interface CryptoOperations<T> {
+
+    /**
+     * Encrypt a byte array value.
+     *
+     * @param plainVal The plaintext value
+     * @return The encrypted value
+     */
+    T encryptByteArray(byte[] plainVal);
+
+    /**
+     * Decrypt data and return the raw plaintext bytes.
+     *
+     * @param encryptedVal The encrypted data
+     * @return The plaintext value
+     */
+    byte[] decryptByteArray(T encryptedVal);
+
+
+    T encryptLong(long plainVal);
+
+    long decryptLong(T encryptedVal);
+
+    T encryptInteger(int plainVal);
+
+    int decryptInteger(T encryptedVal);
+
+    // short?
+    // byte?
+    // char?
+    // char[]?
+    // double?
+    // float?
+
+    T encryptBoolean(boolean plainVal);
+
+    boolean decryptBoolean(T encryptedVal);
+
+    // enum?
 
     /**
      * Encrypt a string value.
@@ -53,4 +93,12 @@ public interface CryptoOperations<T> {
      * @return The plaintext value
      */
     LocalDate decryptLocalDate(T encryptedVal);
+
+    T encryptLocalDateTime(LocalDateTime plainVal);
+
+    LocalDateTime decryptLocalDateTime(T encryptedVal);
+
+    T encryptDate(Date plainVal);
+
+    Date decryptDate(T encryptedVal);
 }

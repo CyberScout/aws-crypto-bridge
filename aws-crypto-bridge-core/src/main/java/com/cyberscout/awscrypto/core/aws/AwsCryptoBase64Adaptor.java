@@ -26,6 +26,24 @@ public class AwsCryptoBase64Adaptor extends BaseAwsCryptoOperations<String> impl
 
 
     @Override
+    public String encryptByteArray(byte[] plainVal) {
+
+        Objects.requireNonNull(plainVal, "plainVal");
+        byte[] ciphertext = this.getCrypto().encryptData(plainVal);
+        return BASE64_ENCODER.encodeToString(ciphertext);
+    }
+
+
+    @Override
+    public byte[] decryptByteArray(String encryptedVal) {
+
+        Objects.requireNonNull(encryptedVal, "encryptedVal");
+        byte[] ciphertext = BASE64_DECODER.decode(encryptedVal);
+        return this.getCrypto().decryptData(ciphertext);
+    }
+
+
+    @Override
     public String encryptString(String plainVal) {
 
         Objects.requireNonNull(plainVal, "plainVal");

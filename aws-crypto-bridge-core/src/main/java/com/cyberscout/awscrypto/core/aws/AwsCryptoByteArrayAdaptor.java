@@ -26,19 +26,32 @@ public class AwsCryptoByteArrayAdaptor extends BaseAwsCryptoOperations<byte[]> i
 
 
     @Override
+    public byte[] encryptByteArray(byte[] plainVal) {
+
+        Objects.requireNonNull(plainVal, "plainVal");
+        return this.getCrypto().encryptData(plainVal);
+    }
+
+
+    @Override
+    public byte[] decryptByteArray(byte[] encryptedVal) {
+
+        Objects.requireNonNull(encryptedVal, "encryptedVal");
+        return this.getCrypto().decryptData(encryptedVal);
+    }
+
+
+    @Override
     public byte[] encryptString(String plainVal) {
 
         Objects.requireNonNull(plainVal, "plainVal");
-        byte[] plaintext = plainVal.getBytes(this.getCharset());
-        return this.getCrypto().encryptData(plaintext);
+        return this.encryptByteArray(plainVal.getBytes(this.getCharset()));
     }
 
 
     @Override
     public String decryptString(byte[] encryptedVal) {
 
-        Objects.requireNonNull(encryptedVal, "encryptedVal");
-        byte[] plaintext = this.getCrypto().decryptData(encryptedVal);
-        return new String(plaintext, this.getCharset());
+        return new String(this.decryptByteArray(encryptedVal), this.getCharset());
     }
 }
