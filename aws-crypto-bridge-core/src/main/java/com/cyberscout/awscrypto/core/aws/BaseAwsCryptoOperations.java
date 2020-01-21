@@ -4,11 +4,14 @@ package com.cyberscout.awscrypto.core.aws;
 import com.cyberscout.awscrypto.core.CryptoOperations;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Objects;
@@ -21,6 +24,8 @@ public abstract class BaseAwsCryptoOperations<T> implements CryptoOperations<T> 
 
     private static final DateTimeFormatter LOCAL_DATE_FORMAT = DateTimeFormatter.ISO_LOCAL_DATE;
     private static final DateTimeFormatter LOCAL_DATE_TIME_FORMAT = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    public static final byte BYTE_TRUE = 0x1;
+    public static final byte BYTE_FALSE = 0x0;
 
     @Getter(PROTECTED)
     private final AwsCryptoFacade<?> crypto;
@@ -37,42 +42,50 @@ public abstract class BaseAwsCryptoOperations<T> implements CryptoOperations<T> 
     @Override
     public T encryptLong(long plainVal) {
 
-        return null;
+        byte[] plainBytes = ByteBuffer.allocate(Long.BYTES).putLong(plainVal).array();
+        return this.encryptByteArray(plainBytes);
     }
 
 
     @Override
     public long decryptLong(T encryptedVal) {
 
-        return 0;
+        byte[] plainBytes = this.decryptByteArray(encryptedVal);
+        return ByteBuffer.wrap(plainBytes).getLong();
     }
 
 
     @Override
     public T encryptInteger(int plainVal) {
 
-        return null;
+        byte[] plainBytes = ByteBuffer.allocate(Integer.BYTES).putInt(plainVal).array();
+        return this.encryptByteArray(plainBytes);
     }
 
 
     @Override
     public int decryptInteger(T encryptedVal) {
 
-        return 0;
+        byte[] plainBytes = this.decryptByteArray(encryptedVal);
+        return ByteBuffer.wrap(plainBytes).getInt();
     }
 
 
     @Override
     public T encryptBoolean(boolean plainVal) {
 
-        return null;
+        byte[] plainBytes = new byte[] {
+                plainVal ? BYTE_TRUE : BYTE_FALSE
+        };
+        return this.encryptByteArray(plainBytes);
     }
 
 
     @Override
     public boolean decryptBoolean(T encryptedVal) {
 
-        return false;
+        byte[] plainBytes = this.decryptByteArray(encryptedVal);
+        return plainBytes[0] == BYTE_TRUE;
     }
 
 
@@ -98,14 +111,17 @@ public abstract class BaseAwsCryptoOperations<T> implements CryptoOperations<T> 
     public T encryptLocalDateTime(LocalDateTime plainVal) {
 
         Objects.requireNonNull(plainVal, "plainVal");
-        return null;
+        String formatted = plainVal.format(LOCAL_DATE_TIME_FORMAT);
+        return this.encryptString(formatted);
     }
 
 
     @Override
     public LocalDateTime decryptLocalDateTime(T encryptedVal) {
 
-        return null;
+        Objects.requireNonNull(encryptedVal, "encryptedVal");
+        String decrypted = this.decryptString(encryptedVal);
+        return LocalDateTime.parse(decrypted, LOCAL_DATE_TIME_FORMAT);
     }
 
 
@@ -113,13 +129,17 @@ public abstract class BaseAwsCryptoOperations<T> implements CryptoOperations<T> 
     public T encryptDate(Date plainVal) {
 
         Objects.requireNonNull(plainVal, "plainVal");
-        return null;
+        LocalDateTime converted = plainVal.toInstant().atOffset(ZoneOffset.UTC).toLocalDateTime();
+        return this.encryptLocalDateTime(converted);
     }
 
 
+    @SneakyThrows
     @Override
     public Date decryptDate(T encryptedVal) {
 
-        return null;
+        Objects.requireNonNull(encryptedVal, "encryptedVal");
+        LocalDateTime decrypted = this.decryptLocalDateTime(encryptedVal);
+        return Date.from(decrypted.atOffset(ZoneOffset.UTC).toInstant());
     }
 }
