@@ -1,0 +1,4 @@
+dependencies {
+    implementation 'org.hibernate:hibernate-core:3.6.10.Final'
+    api project(':aws-crypto-bridge-core')
+}

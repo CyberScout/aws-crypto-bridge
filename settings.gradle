@@ -1,5 +1,5 @@
 rootProject.name = 'aws-crypto-bridge'
 include 'aws-crypto-jpa'
-include 'aws-crypto-hibernate'
+include 'aws-crypto-hibernate3'
 include 'aws-crypto-bridge-core'
 

@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class CryptoRegistry {
 
-    private static final String DEFAULT_NAME = "DEFAULT";
+    public static final String DEFAULT_NAME = "DEFAULT";
     private static final CryptoRegistry INSTANCE = new CryptoRegistry();
 
     private final Map<String, CryptoOperations<?>> registry = new ConcurrentHashMap<>();
@@ -110,5 +110,15 @@ public final class CryptoRegistry {
     public <T extends CryptoOperations<?>> T lookupDefault(Class<T> type) {
 
         return this.lookup(DEFAULT_NAME, type);
+    }
+
+
+    /**
+     * Resets the registry by clearing all registered {@code CryptoOperations}. Primarily used for testing purposes,
+     * though it may prove useful for edge cases.
+     */
+    public void clear() {
+
+        this.registry.clear();
     }
 }
