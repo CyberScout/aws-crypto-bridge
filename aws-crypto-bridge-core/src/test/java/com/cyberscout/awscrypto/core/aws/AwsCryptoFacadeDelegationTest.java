@@ -2,6 +2,7 @@ package com.cyberscout.awscrypto.core.aws;
 
 
 import com.amazonaws.encryptionsdk.AwsCrypto;
+import com.cyberscout.awscrypto.core.aws.test.DummyMasterKey;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,18 +21,18 @@ import static org.mockito.Mockito.verify;
 public class AwsCryptoFacadeDelegationTest {
 
     private AwsCrypto mockDelegate;
-    private MockMasterKey masterKey;
+    private DummyMasterKey masterKey;
     private HashMap<String, String> context;
     private InputStream mockInputStream;
     private OutputStream mockOutputStream;
-    private AwsCryptoFacade<MockMasterKey> facade;
+    private AwsCryptoFacade<DummyMasterKey> facade;
 
 
     @Before
     public void createObjects() {
 
         this.mockDelegate = mock(AwsCrypto.class);
-        this.masterKey = new MockMasterKey();
+        this.masterKey = new DummyMasterKey();
         this.context = new HashMap<>();
         this.mockInputStream = mock(InputStream.class);
         this.mockOutputStream = mock(OutputStream.class);

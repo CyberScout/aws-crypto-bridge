@@ -1,3 +1,4 @@
 dependencies {
     testImplementation project.awsEncryption
+    testImplementation project(":aws-crypto-test-lib")
 }

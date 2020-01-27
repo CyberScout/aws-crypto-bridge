@@ -3,6 +3,7 @@ package com.cyberscout.awscrypto.core.aws;
 
 import com.amazonaws.encryptionsdk.AwsCrypto;
 import com.amazonaws.encryptionsdk.exception.BadCiphertextException;
+import com.cyberscout.awscrypto.core.aws.test.DummyMasterKey;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,7 +31,7 @@ public class AwsCryptoFacadeBasicTest {
         Map<String, String> context = new HashMap<>();
         context.put("First", "Value");
         context.put("2nd", "Context Value");
-        AwsCryptoFacade<MockMasterKey> facade = new AwsCryptoFacade<>(mockDelegate, new MockMasterKey(), context);
+        AwsCryptoFacade<DummyMasterKey> facade = new AwsCryptoFacade<>(mockDelegate, new DummyMasterKey(), context);
         Map<String, String> decryptedContext = new HashMap<>();
         decryptedContext.put("First", "Value");
         decryptedContext.put("2nd", "Context Value");
@@ -45,7 +46,7 @@ public class AwsCryptoFacadeBasicTest {
         Map<String, String> context = new HashMap<>();
         context.put("First", "Value");
         context.put("2nd", "Context Value");
-        AwsCryptoFacade<MockMasterKey> facade = new AwsCryptoFacade<>(mockDelegate, new MockMasterKey(), context);
+        AwsCryptoFacade<DummyMasterKey> facade = new AwsCryptoFacade<>(mockDelegate, new DummyMasterKey(), context);
         Map<String, String> decryptedContext = new HashMap<>();
         decryptedContext.put("First", "Different Value");
         decryptedContext.put("2nd", "Context Value");
@@ -60,7 +61,7 @@ public class AwsCryptoFacadeBasicTest {
         Map<String, String> context = new HashMap<>();
         context.put("First", "Value");
         context.put("2nd", "Context Value");
-        AwsCryptoFacade<MockMasterKey> facade = new AwsCryptoFacade<>(mockDelegate, new MockMasterKey(), context);
+        AwsCryptoFacade<DummyMasterKey> facade = new AwsCryptoFacade<>(mockDelegate, new DummyMasterKey(), context);
         Map<String, String> decryptedContext = new HashMap<>();
         decryptedContext.put("First", "Value");
         decryptedContext.put("AWS Stuff", "Some value set by AWS ESDK");
@@ -71,7 +72,7 @@ public class AwsCryptoFacadeBasicTest {
     public void checkValidateEmptyContext() {
 
         Map<String, String> context = new HashMap<>();
-        AwsCryptoFacade<MockMasterKey> facade = new AwsCryptoFacade<>(mockDelegate, new MockMasterKey(), context);
+        AwsCryptoFacade<DummyMasterKey> facade = new AwsCryptoFacade<>(mockDelegate, new DummyMasterKey(), context);
         Map<String, String> decryptedContext = new HashMap<>();
         decryptedContext.put("AWS Stuff", "Some value set by AWS ESDK");
         facade.validateContext(decryptedContext);

@@ -3,12 +3,18 @@
 Defines integration layers and supporting libraries for integrating the AWS
 Encryption SDK into some common Java-based frameworks.
 
-- [ ] Core
+- [x] Core
+- Hibernate
+    - [ ] Hibernate 3
+    - [ ] Hibernate 4
+    - [ ] Hibernate 5
 - [ ] JPA
+- Spring
+    - [ ] Spring Core
+    - [ ] Spring JPA
+    - [ ] Spring Hibernate
+    - [ ] Spring Boot Starter
 - [ ] Java EE 5+
-- [ ] Spring
-- [ ] Spring Boot Starter
-- [ ] Hibernate
 - [ ] Java Cryptography Extensions (JCE)
 - [ ] Jasypt
 - [ ] Migration Shim (for decrypting data with a legacy mechanism, but
@@ -19,6 +25,18 @@ Encryption SDK into some common Java-based frameworks.
 Defines higher-level interfaces for managing encryption and decryption
 operations, along with wrappers around key AWS ESDK classes to adapt them to
 those interfaces and make them easier to work with.
+
+## Hibernate
+
+`UserTypes`
+
+:question: Which version(s) of Hibernate?
+
+:exclamation: Starting with version 3, but since the UserType mechanism
+underwent changes in both 4 and 5, we would need specific libraries for each of
+those major versions (if we need/want comprehensive Hibernate support).
+
+:question: Listeners?
 
 ## JPA
 
@@ -41,14 +59,6 @@ Spring Beans for managing the subsystem.
 ### Spring Boot Starter
 
 Starter, with type-safe properties and auto-configuration
-
-## Hibernate
-
-UserTypes
-
-:question: Which version(s) of Hibernate?
-
-:question: Listeners?
 
 ## Java Cryptography Extensions (JCE)
 

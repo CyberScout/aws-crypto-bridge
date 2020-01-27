@@ -1,4 +1,4 @@
-package com.cyberscout.awscrypto.core.aws;
+package com.cyberscout.awscrypto.core.aws.test;
 
 
 import com.amazonaws.encryptionsdk.jce.JceMasterKey;

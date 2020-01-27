@@ -1,4 +1,9 @@
 dependencies {
     implementation 'org.hibernate:hibernate-core:3.6.10.Final'
     api project(':aws-crypto-bridge-core')
+    integTestImplementation project.awsEncryption
+    integTestImplementation project(':aws-crypto-test-lib')
+    integTestRuntimeOnly 'org.javassist:javassist:3.26.0-GA'
+    integTestRuntimeOnly 'com.h2database:h2:1.4.200'
+    integTestRuntimeOnly 'org.slf4j:slf4j-simple:1.7.30'
 }

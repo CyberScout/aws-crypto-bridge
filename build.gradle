@@ -1,5 +1,6 @@
 plugins {
     id 'io.freefair.lombok' version '4.1.6' apply false
+    id "org.unbroken-dome.test-sets" version "2.2.1" apply false
 }
 
 subprojects {
@@ -31,5 +32,22 @@ subprojects {
     dependencies {
         compileOnly awsEncryption
         testImplementation unitTesting
+    }
+}
+
+//
+// Integration Tests
+//
+
+// List modules that need integration tests here...
+def integrationTestProjects = [
+        project(':aws-crypto-hibernate3'),
+]
+
+configure(integrationTestProjects) {
+    apply plugin: 'org.unbroken-dome.test-sets'
+
+    testSets {
+        integTest { dirName = 'integ-test' }
     }
 }

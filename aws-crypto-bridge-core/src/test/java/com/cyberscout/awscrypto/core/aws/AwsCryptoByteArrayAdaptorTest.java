@@ -12,7 +12,7 @@ import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.UUID;
 
-import static com.cyberscout.awscrypto.core.aws.CryptoTestUtils.createJceMasterKey;
+import static com.cyberscout.awscrypto.core.aws.test.CryptoTestUtils.createJceMasterKey;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;

@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.UUID;
 
-import static com.cyberscout.awscrypto.core.aws.CryptoTestUtils.createJceMasterKey;
+import static com.cyberscout.awscrypto.core.aws.test.CryptoTestUtils.createJceMasterKey;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
 
