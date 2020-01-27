@@ -1,6 +1,7 @@
 package com.cyberscout.awscrypto.hibernate.entity;
 
 
+import com.cyberscout.awscrypto.hibernate.DateToEncryptedStringType;
 import com.cyberscout.awscrypto.hibernate.LocalDateToEncryptedStringType;
 import com.cyberscout.awscrypto.hibernate.Parameters;
 import com.cyberscout.awscrypto.hibernate.StringToEncryptedStringType;
@@ -14,6 +15,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDate;
+import java.util.Date;
 
 
 @Data
@@ -28,6 +30,11 @@ import java.time.LocalDate;
     @TypeDef(
             name = "encryptedLocalDateType",
             typeClass = LocalDateToEncryptedStringType.class,
+            parameters = { @Parameter(name = Parameters.CRYPTO_NAME, value = Constants.CRYPTO_NAME) }
+    ),
+    @TypeDef(
+            name = "encryptedDateType",
+            typeClass = DateToEncryptedStringType.class,
             parameters = { @Parameter(name = Parameters.CRYPTO_NAME, value = Constants.CRYPTO_NAME) }
     )
 })
@@ -45,4 +52,7 @@ public class Employee {
     @Type(type = "encryptedLocalDateType")
     @Column(length = 2048)
     private LocalDate dateOfBirth;
+    @Type(type = "encryptedDateType")
+    @Column(length = 2048)
+    private Date secretDate;
 }

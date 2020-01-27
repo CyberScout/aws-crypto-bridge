@@ -18,7 +18,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
@@ -87,25 +90,37 @@ public class UserTypeEncryptionIntegTest {
         kobe.setFirstName("Kobe");
         kobe.setLastName("Bryant");
         kobe.setDateOfHire(LocalDate.of(2020, Month.JANUARY, 26));
-        kobe.setSocialSecurityNumber("824052010");
-        kobe.setDateOfBirth(LocalDate.of(1978, Month.AUGUST, 23));
+        final String ssn = "824052010";
+        kobe.setSocialSecurityNumber(ssn);
+        final LocalDate dob = LocalDate.of(1978, Month.AUGUST, 23);
+        kobe.setDateOfBirth(dob);
+        final ZonedDateTime secretDate = ZonedDateTime.of(2006,
+                                                          Month.JANUARY.getValue(),
+                                                          22,
+                                                          18,
+                                                          30,
+                                                          0,
+                                                          0,
+                                                          ZoneId.of("America/Los_Angeles"));
+        kobe.setSecretDate(Date.from(secretDate.toInstant()));
         session.save(kobe);
         session.flush();
 
         session.clear();
-        checkEncryptedValuesInDb(id, kobe.getSocialSecurityNumber(), kobe.getDateOfBirth());
+        checkEncryptedValuesInDb(id, ssn, dob, secretDate);
         Employee res = (Employee) session.get(Employee.class, id);
         assertThat(res.getSocialSecurityNumber(), is(kobe.getSocialSecurityNumber()));
         assertThat(res.getDateOfBirth(), is(kobe.getDateOfBirth()));
     }
 
 
-    private void checkEncryptedValuesInDb(long id, String ssn, LocalDate dob) {
+    @SuppressWarnings("SameParameterValue")
+    private void checkEncryptedValuesInDb(long id, String ssn, LocalDate dob, ZonedDateTime secret) {
 
         sf.getSession().doWork((connection) -> {
             @SuppressWarnings("SqlNoDataSourceInspection")
             PreparedStatement stmt = connection.prepareStatement(
-                    "select socialSecurityNumber, dateOfBirth from employee where id = ?");
+                    "select socialSecurityNumber, dateOfBirth, secretDate from employee where id = ?");
             stmt.setLong(1, id);
             ResultSet results = stmt.executeQuery();
             assertTrue(results.next());
@@ -124,7 +139,15 @@ public class UserTypeEncryptionIntegTest {
             assertThat(dbDob, not(containsString(dob.format(DateTimeFormatter.ISO_LOCAL_DATE))));
             assertTrue(dbDob.length() > 100);
 
+            String dbSecret = results.getString(3);
+            System.out.println(dbSecret);
+            assertNotNull(dbSecret);
+            assertThat(dbSecret, not(containsString(secret.format(DateTimeFormatter.ISO_ZONED_DATE_TIME))));
+            assertTrue(dbSecret.length() > 100);
+
             assertThat(dbSsn, not(equalTo(dbDob)));
+            assertThat(dbSsn, not(equalTo(dbSecret)));
+            assertThat(dbDob, not(equalTo(dbSecret)));
         });
     }
 }

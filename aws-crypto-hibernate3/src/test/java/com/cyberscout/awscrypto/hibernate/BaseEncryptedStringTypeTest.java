@@ -4,12 +4,14 @@ package com.cyberscout.awscrypto.hibernate;
 import com.cyberscout.awscrypto.core.Base64StringCrypto;
 import com.cyberscout.awscrypto.core.CryptoRegistry;
 import com.cyberscout.awscrypto.core.exceptions.CryptoBridgeConfigException;
+import org.hibernate.HibernateException;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.io.Serializable;
 import java.util.Properties;
 
 import static com.cyberscout.awscrypto.hibernate.Parameters.CRYPTO_NAME;
@@ -18,10 +20,10 @@ import static org.junit.Assert.assertThat;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class BaseImmutableEncryptedStringTypeTest {
+public class BaseEncryptedStringTypeTest {
 
     private static final String cryptoName = "testCrypto";
-    private BaseImmutableEncryptedStringType testType = new TestType();
+    private BaseEncryptedStringType testType = new TestType();
     private CryptoRegistry registry = CryptoRegistry.instance();
     @Mock
     private Base64StringCrypto mockCrypto;
@@ -80,7 +82,7 @@ public class BaseImmutableEncryptedStringTypeTest {
     }
 
 
-    private static class TestType extends BaseImmutableEncryptedStringType {
+    private static class TestType extends BaseEncryptedStringType {
 
 
         @Override
@@ -92,6 +94,41 @@ public class BaseImmutableEncryptedStringTypeTest {
 
         @Override
         protected String encryptValue(Object plainVal) {
+
+            return null;
+        }
+
+
+        @Override
+        public Object deepCopy(Object o) throws HibernateException {
+
+            return null;
+        }
+
+
+        @Override
+        public boolean isMutable() {
+
+            return false;
+        }
+
+
+        @Override
+        public Serializable disassemble(Object o) throws HibernateException {
+
+            return null;
+        }
+
+
+        @Override
+        public Object assemble(Serializable serializable, Object o) throws HibernateException {
+
+            return null;
+        }
+
+
+        @Override
+        public Object replace(Object o, Object o1, Object o2) throws HibernateException {
 
             return null;
         }

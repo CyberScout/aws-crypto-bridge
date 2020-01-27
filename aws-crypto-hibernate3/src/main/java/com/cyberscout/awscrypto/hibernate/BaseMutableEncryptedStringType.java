@@ -2,44 +2,54 @@ package com.cyberscout.awscrypto.hibernate;
 
 
 import org.hibernate.HibernateException;
+import org.hibernate.TypeMismatchException;
 
 import java.io.Serializable;
-import java.util.Objects;
+import java.util.Date;
 
 
-public abstract class BaseImmutableEncryptedStringType extends BaseEncryptedStringType {
+public abstract class BaseMutableEncryptedStringType extends BaseEncryptedStringType {
 
     @Override
     public Object deepCopy(Object value) throws HibernateException {
 
-        return value;
+        if (value == null) {
+            return null;
+        }
+        try {
+            Date other = (Date) value;
+            return new Date(other.getTime());
+        }
+        catch (ClassCastException e) {
+            throw new TypeMismatchException(e);
+        }
     }
 
 
     @Override
     public boolean isMutable() {
 
-        return false;
+        return true;
     }
 
 
     @Override
     public Serializable disassemble(Object value) throws HibernateException {
 
-        return value == null ? null : Objects.toString(value);
+        return (Date) deepCopy(value);
     }
 
 
     @Override
     public Object assemble(Serializable cached, Object owner) throws HibernateException {
 
-        return cached;
+        return deepCopy(cached);
     }
 
 
     @Override
     public Object replace(Object original, Object target, Object owner) throws HibernateException {
 
-        return original;
+        return deepCopy(original);
     }
 }
