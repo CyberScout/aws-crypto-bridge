@@ -7,8 +7,8 @@ subprojects {
     apply plugin: 'java-library'
     apply plugin: 'io.freefair.lombok'
 
-    group 'com.cyberscout.oss'
-    version '0.0.1'
+    group 'com.cyberscout.crypto'
+    version '0.0.2'
 
     sourceCompatibility = 1.8
 
