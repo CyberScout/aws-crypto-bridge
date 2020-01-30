@@ -3,4 +3,5 @@ include 'aws-crypto-test-lib'
 include 'aws-crypto-bridge-core'
 include 'aws-crypto-hibernate3'
 include 'aws-crypto-jpa'
+include 'aws-crypto-jasypt-shim'
 
