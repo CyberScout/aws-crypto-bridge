@@ -1,11 +1,13 @@
 # AWS Encryption SDK Bridge
 
+![CI Build](https://github.com/CyberScout/aws-crypto-bridge/workflows/CI%20Build/badge.svg)
+
 Defines integration layers and supporting libraries for integrating the AWS
 Encryption SDK into some common Java-based frameworks.
 
 - [x] Core
 - Hibernate
-    - [ ] Hibernate 3
+    - [x] Hibernate 3
     - [ ] Hibernate 4
     - [ ] Hibernate 5
 - [ ] JPA
@@ -16,9 +18,9 @@ Encryption SDK into some common Java-based frameworks.
     - [ ] Spring Boot Starter
 - [ ] Java EE 5+
 - [ ] Java Cryptography Extensions (JCE)
-- [ ] Jasypt
-- [ ] Migration Shim (for decrypting data with a legacy mechanism, but
-      re-encrypting with AWS ESDK)
+- [x] Jasypt
+- [x] Migration Shim (for decrypting data with a legacy mechanism, but
+     re-encrypting with AWS ESDK)
 
 ## Core
 
