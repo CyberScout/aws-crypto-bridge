@@ -237,7 +237,6 @@ public class AwsCryptoFacade<K extends MasterKey<K>> {
      *
      * @param <K> The {@code MasterKey} implementation that will be used by the facade created by this builder
      */
-    @SuppressWarnings("JavaDoc")
     public static class Builder<K extends MasterKey<K>> {
 
         private final MasterKeyProvider<K> mkp;
@@ -252,10 +251,11 @@ public class AwsCryptoFacade<K extends MasterKey<K>> {
 
 
         /**
-         * Sets the encryption context for the resulting facade.
+         * Adds all of the given encryption context values to the resulting facade. This method does not clear any
+         * previously set context values, but will override any that exist with the same key.
          *
-         * @param context
-         * @return
+         * @param context The encryption context to set
+         * @return This builder object
          */
         public Builder<K> withContext(Map<String, String> context) {
 
@@ -265,11 +265,12 @@ public class AwsCryptoFacade<K extends MasterKey<K>> {
 
 
         /**
-         * Adds a new key/value pair to the encryption context for the resulting facade.
+         * Adds a new key/value pair to the encryption context for the resulting facade. This method will override
+         * any existing value with the same key.
          *
-         * @param key
-         * @param value
-         * @return
+         * @param key The encryption context key
+         * @param value The encryption context value
+         * @return This builder object
          */
         public Builder<K> addContext(String key, String value) {
 
@@ -281,8 +282,8 @@ public class AwsCryptoFacade<K extends MasterKey<K>> {
         /**
          * Initializes the encryption algorithm that the resulting facade will use.
          *
-         * @param algorithm
-         * @return
+         * @param algorithm The {@code CryptoAlgorithm} to use
+         * @return This builder object
          */
         public Builder<K> withAlgorithm(CryptoAlgorithm algorithm) {
 
@@ -294,8 +295,8 @@ public class AwsCryptoFacade<K extends MasterKey<K>> {
         /**
          * Initializes the encryption frame size that the resulting facade will use.
          *
-         * @param size
-         * @return
+         * @param size The frame size to use
+         * @return This builder object
          */
         public Builder<K> withFrameSize(int size) {
 
@@ -307,7 +308,7 @@ public class AwsCryptoFacade<K extends MasterKey<K>> {
         /**
          * Constructs a new {@code AwsCryptoFacade} object, based on the values initialized via this builder.
          *
-         * @return
+         * @return The resulting facade
          */
         public AwsCryptoFacade<K> build() {
 

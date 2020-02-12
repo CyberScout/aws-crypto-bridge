@@ -87,7 +87,7 @@ public interface CryptoOperations<T> {
     T encryptLocalDate(LocalDate plainVal);
 
     /**
-     * Decrypt data and convert it back into a plaintext {@LocalDate} value.
+     * Decrypt data and convert it back into a plaintext {@code LocalDate} value.
      *
      * @param encryptedVal The encrypted data
      * @return The plaintext value

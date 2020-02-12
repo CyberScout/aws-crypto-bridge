@@ -76,6 +76,7 @@ public final class CryptoRegistry {
     /**
      * Lookup the {@code CryptoOperations} object with the given name.
      *
+     * @param <T> The expected {@code CryptoOperations} implementor or sub-interface
      * @param name The name of the registered object
      * @param type The expected type of the registered object
      * @return The {@code CryptoOperations} object that was previously registered under the given name
@@ -103,6 +104,7 @@ public final class CryptoRegistry {
     /**
      * Lookup the default {@code CryptoOperations} object.
      *
+     * @param <T> The expected {@code CryptoOperations} implementor or sub-interface
      * @param type The expected type of the registered object
      * @return The default {@code CryptoOperations} object that was previously registered
      * @see #lookup(String, Class)

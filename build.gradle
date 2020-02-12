@@ -1,6 +1,7 @@
 plugins {
     id 'io.freefair.lombok' version '4.1.6' apply false
     id "org.unbroken-dome.test-sets" version "2.2.1" apply false
+    id 'com.jfrog.bintray' version '1.8.4' apply false
 }
 
 subprojects {
@@ -8,7 +9,7 @@ subprojects {
     apply plugin: 'io.freefair.lombok'
 
     group 'com.cyberscout.crypto'
-    version '0.0.2'
+    version '0.1.0'
 
     sourceCompatibility = 1.8
 
@@ -50,4 +51,106 @@ configure(integrationTestProjects) {
     testSets {
         integTest { dirName = 'integ-test' }
     }
+}
+
+//
+// Publishing
+//
+subprojects {
+    apply plugin: 'maven-publish'
+    apply plugin: 'com.jfrog.bintray'
+
+    task sourcesJar(type: Jar) {
+        archiveClassifier.set('sources')
+        from sourceSets.main.allJava
+    }
+
+    task javadocJar(type: Jar) {
+        archiveClassifier.set('javadoc')
+        from javadoc.destinationDir
+    }
+
+    publishing {
+        repositories {
+            maven {
+                name = 'GitHubPackages'
+                url = uri('https://maven.pkg.github.com/CyberScout/aws-crypto-bridge')
+                credentials {
+                    username = System.getenv('GH_USER')
+                    password = System.getenv('GH_PA_TOKEN')
+                }
+            }
+        }
+        publications {
+            maven(MavenPublication) {
+                from components.java
+                artifact sourcesJar
+                artifact javadocJar
+                groupId = project.group
+                artifactId = project.name
+                version = project.version
+                pom {
+                    name = projectName
+                    description = projectDesc
+                    licenses {
+                        license {
+                            name = 'MIT License'
+                            url = 'http://www.opensource.org/licenses/mit-license.php'
+                            distribution = 'repo'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'cyberscout'
+                            name = 'CyberScout, LLC'
+                            email = 'dev-support@cyberscout.com'
+                            url = 'https://cyberscout.com'
+                        }
+                    }
+                    scm {
+                        connection = 'https://github.com/CyberScout/aws-crypto-bridge.git'
+                        developerConnection = 'git@github.com:CyberScout/aws-crypto-bridge.git'
+                        url = 'https://github.com/CyberScout/aws-crypto-bridge'
+                    }
+                }
+            }
+        }
+    }
+
+    //
+    // Bintray Publishing
+    //
+    bintray {
+        user = System.getenv('BINTRAY_USER')
+        key = System.getenv('BINTRAY_KEY')
+        publications = ['maven']
+        publish = true
+        override = true
+        pkg {
+            userOrg = 'cyberscout'
+            repo = 'cyberscout-oss-maven'
+            name = project.name
+            licenses = ['MIT']
+            vcsUrl = 'https://github.com/CyberScout/aws-crypto-bridge.git'
+            githubRepo = 'CyberScout/aws-crypto-bridge'
+            publicDownloadNumbers = true
+            version {
+                name = project.version
+                released = new Date()
+                gpg {
+                    sign = true
+                }
+            }
+        }
+    }
+
+    //
+    // Uber-Publish Task
+    //
+    task cdPublish(dependsOn: [check, javadoc, bintrayUpload, publishMavenPublicationToGitHubPackagesRepository]) {
+        description 'Publish artifacts to distribution points'
+        group 'publishing'
+    }
+
+    bintrayUpload.mustRunAfter check
 }
