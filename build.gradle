@@ -9,7 +9,7 @@ subprojects {
     apply plugin: 'io.freefair.lombok'
 
     group 'com.cyberscout.crypto'
-    version '0.1.0'
+    version '0.1.1'
 
     sourceCompatibility = 1.8
 
@@ -92,6 +92,7 @@ subprojects {
                 pom {
                     name = projectName
                     description = projectDesc
+                    url = 'https://github.com/CyberScout/aws-crypto-bridge'
                     licenses {
                         license {
                             name = 'MIT License'
@@ -112,6 +113,10 @@ subprojects {
                         developerConnection = 'git@github.com:CyberScout/aws-crypto-bridge.git'
                         url = 'https://github.com/CyberScout/aws-crypto-bridge'
                     }
+                    issueManagement {
+                        system = 'GitHub Issues'
+                        url = 'https://github.com/CyberScout/aws-crypto-bridge/issues'
+                    }
                 }
             }
         }
@@ -130,9 +135,12 @@ subprojects {
             userOrg = 'cyberscout'
             repo = 'cyberscout-oss-maven'
             name = project.name
+            desc = projectName
+            labels = ['aws esdk', 'crypto', 'encryption']
             licenses = ['MIT']
             vcsUrl = 'https://github.com/CyberScout/aws-crypto-bridge.git'
             githubRepo = 'CyberScout/aws-crypto-bridge'
+            githubReleaseNotesFile = project.name + '/README.md'
             publicDownloadNumbers = true
             version {
                 name = project.version

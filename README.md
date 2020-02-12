@@ -1,6 +1,7 @@
 # AWS Encryption SDK Bridge
 
-![CI Build](https://github.com/CyberScout/aws-crypto-bridge/workflows/CI%20Build/badge.svg)
+![CI Build](https://github.com/CyberScout/aws-crypto-bridge/workflows/CI%20Build/badge.svg)&nbsp;
+![CD Publish Release](https://github.com/CyberScout/aws-crypto-bridge/workflows/CD%20Publish%20Release/badge.svg)
 
 Defines integration layers and supporting libraries for integrating the AWS
 Encryption SDK into some common Java-based frameworks.
