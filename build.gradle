@@ -9,7 +9,7 @@ subprojects {
     apply plugin: 'io.freefair.lombok'
 
     group 'com.cyberscout.crypto'
-    version '0.1.1'
+    version '0.1.2'
 
     sourceCompatibility = 1.8
 
@@ -160,5 +160,5 @@ subprojects {
         group 'publishing'
     }
 
-    bintrayUpload.mustRunAfter check
+    bintrayUpload.mustRunAfter check, javadoc
 }
