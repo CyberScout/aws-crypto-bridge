@@ -9,7 +9,7 @@ subprojects {
     apply plugin: 'io.freefair.lombok'
 
     group 'com.cyberscout.crypto'
-    version '0.1.3'
+    version '0.1.4'
 
     sourceCompatibility = 1.8
 
@@ -138,6 +138,8 @@ subprojects {
             desc = projectName
             labels = ['aws esdk', 'crypto', 'encryption']
             licenses = ['MIT']
+            websiteUrl = 'https://github.com/CyberScout/aws-crypto-bridge'
+            issueTrackerUrl = 'https://github.com/CyberScout/aws-crypto-bridge/issues'
             vcsUrl = 'https://github.com/CyberScout/aws-crypto-bridge.git'
             githubRepo = 'CyberScout/aws-crypto-bridge'
             publicDownloadNumbers = true
